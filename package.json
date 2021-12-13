@@ -11,6 +11,7 @@
   "author": "Yusuke Wada <yusuke@kamawada.com>",
   "license": "MIT",
   "devDependencies": {
+    "jest": "^27.4.4",
     "prettier": "^1.18.2"
   }
 }
