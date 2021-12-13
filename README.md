@@ -2,6 +2,7 @@
 
 ## Related Projects
 
+- <https://github.com/bmf-san/goblin>
 - <https://github.com/kwhitley/itty-router>
 
 ## Author
