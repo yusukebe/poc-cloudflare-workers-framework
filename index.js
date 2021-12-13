@@ -1,4 +1,4 @@
-const { App } = require('./src/app.js')
+const App = require('./src/app.js')
 
 App.get('/hello', () => {
   return new Response('/hello', {

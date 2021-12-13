@@ -49,4 +49,4 @@ const proxyHandler = {
 
 const App = new Proxy(app, proxyHandler)
 
-module.exports = { App }
+module.exports = App
