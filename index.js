@@ -1,9 +1,10 @@
-const hono = require('./src/hono.js')
+const Hono = require('./src/hono.js')
+const app = new Hono()
 
-hono.get('/hello', (req) => {
+app.get('/hello', () => {
   return new Response('Hello!', {
     status: 200
   })
 })
 
-hono.fire()
+app.fire()

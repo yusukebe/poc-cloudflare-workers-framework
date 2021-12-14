@@ -54,12 +54,7 @@ function App() {
 const proxyHandler = {
   get: (target, prop, receiver) => (...args) => {
     if (target.hasOwnProperty(prop)) {
-      if (prop == 'handle') {
-        return target.handle(args[0])
-      }
-      if (prop == 'fire') {
-        return target.fire()
-      }
+      return target[prop](args[0])
     } else {
       target.addRoute(prop, args[0], args[1])
       return
@@ -68,6 +63,10 @@ const proxyHandler = {
 }
 
 const app = new App()
-const hono = new Proxy(app, proxyHandler)
 
-module.exports = hono
+function Hono() {
+  return new Proxy(
+    app, proxyHandler
+  )
+}
+module.exports = Hono

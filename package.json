@@ -1,7 +1,6 @@
 {
-  "private": true,
   "name": "my-app-001",
-  "version": "1.0.0",
+  "version": "0.0.0",
   "description": "A template for kick starting a Cloudflare Workers project",
   "main": "index.js",
   "scripts": {
@@ -12,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "jest": "^27.4.4",
+    "node-fetch": "^2.6.6",
     "prettier": "^1.18.2"
   }
 }
