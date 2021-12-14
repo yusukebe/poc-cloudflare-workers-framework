@@ -30,7 +30,7 @@ function App() {
     const route = match[0]
     if (route.method == method) {
       const handler = route.handler
-      return handler()
+      return handler(request)
     }
     return this.notFound()
   };
