@@ -2,15 +2,26 @@ const Router = require('./router')
 
 const router = new Router()
 
+router.add('/hello', 'hello')
+
+//test('root not match', () => {
+//  let match = router.match('/')
+//  expect(match).toBeNull()
+//})
+
 router.add('/', 'root')
+
+test('root match', () => {
+  let match = router.match('/')
+  expect(match).not.toBeNull()
+  expect(match[0]).toBe('root')
+  match = router.match('/foo')
+  expect(match).toBeNull()
+})
+
 router.add('/entry/:id', 'entry-id')
 router.add('/entry/:id/:comment', 'entry-id-comment')
 router.add('/year/:year{[0-9]{4}}/:month{[0-9]{2}}', 'date-regex')
-
-test('root match', () => {
-  const match = router.match('/')
-  expect(match[0]).toBe('root')
-})
 
 test('entry id match', () => {
   const match = router.match('/entry/123')
@@ -25,7 +36,6 @@ test('entry id and comment match', () => {
   expect(match[1]['comment']).toBe('45678')
 })
 
-
 test('date-regex', () => {
   const match = router.match('/year/2021/12')
   expect(match[0]).toBe('date-regex')
@@ -35,7 +45,7 @@ test('date-regex', () => {
 
 test('not match', () => {
   let match = router.match('/foo')
-  expect(match[0]).toBeNull()
+  expect(match).toBeNull()
   match = router.match('/year/abc')
-  expect(match[0]).toBeNull()
+  expect(match).toBeNull()
 }) 

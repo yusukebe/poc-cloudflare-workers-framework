@@ -1,7 +1,7 @@
 // Ref: https://github.com/bmf-san/goblin
 
 function Router() {
-  this.node = new Node();
+  this.node = new Node({ label: "/" });
   this.add = (path, stuff) => {
     this.node.insert(path, stuff)
   };
@@ -17,6 +17,10 @@ function Node({ label, stuff, children } = {}) {
 
   this.insert = (path, stuff) => {
     let curNode = this
+    if (path == '/') {
+      curNode.label = path
+      curNode.stuff = stuff
+    }
     const ps = this.splitPath(path)
     for (p of ps) {
       let nextNode = curNode.children[p]
@@ -30,7 +34,7 @@ function Node({ label, stuff, children } = {}) {
   };
 
   this.splitPath = (path) => {
-    const ps = ["/"]
+    const ps = []
     for (p of path.split('/')) {
       if (p) {
         ps.push(p)
@@ -57,10 +61,11 @@ function Node({ label, stuff, children } = {}) {
   };
 
   this.noRoute = () => {
-    return [null]
+    return null
   };
 
   this.search = (path) => {
+
     let curNode = this
     const params = {}
 

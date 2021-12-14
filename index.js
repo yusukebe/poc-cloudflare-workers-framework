@@ -1,9 +1,9 @@
-const App = require('./src/app.js')
+const hono = require('./src/hono.js')
 
-App.get('/hello', () => {
-  return new Response('/hello', {
+hono.get('/hello', () => {
+  return new Response('Hello!', {
     status: 200
   })
 })
 
-addEventListener("fetch", event => App.handle(event))
+hono.fire()
