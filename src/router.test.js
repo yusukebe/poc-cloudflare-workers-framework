@@ -2,13 +2,6 @@ const Router = require('./router')
 
 const router = new Router()
 
-router.add('/hello', 'hello')
-
-//test('root not match', () => {
-//  let match = router.match('/')
-//  expect(match).toBeNull()
-//})
-
 router.add('/', 'root')
 
 test('root match', () => {
@@ -17,8 +10,11 @@ test('root match', () => {
   expect(match[0]).toBe('root')
   match = router.match('/foo')
   expect(match).toBeNull()
+  match = router.match('/hello')
+  expect(match[0]).toBe('hello')
 })
 
+router.add('/hello', 'hello')
 router.add('/entry/:id', 'entry-id')
 router.add('/entry/:id/:comment', 'entry-id-comment')
 router.add('/year/:year{[0-9]{4}}/:month{[0-9]{2}}', 'date-regex')
