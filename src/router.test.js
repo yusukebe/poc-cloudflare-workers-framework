@@ -1,5 +1,5 @@
 const Router = require('./router')
-const router = new Router()
+let router = new Router()
 
 describe('root match', () => {
   it('/ match', () => {
@@ -49,6 +49,17 @@ describe('path match', () => {
     let match = router.match('/foo')
     expect(match).toBeNull()
     match = router.match('/year/abc')
+    expect(match).toBeNull()
+  })
+})
+
+describe('wildcard', () => {
+  it('match', () => {
+    router = new Router()
+    router.add('/abc/*/def')
+    let match = router.match('/abc/xxx/def')
+    expect(match).not.toBeNull()
+    match = router.match('/abc/xxx/abc')
     expect(match).toBeNull()
   })
 })

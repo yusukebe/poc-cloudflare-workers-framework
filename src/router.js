@@ -83,6 +83,11 @@ function Node({ label, stuff, children } = {}) {
       }
       let isParamMatch = false
       for (const key in curNode.children) {
+        if (key == "*") { // XXX
+          curNode = curNode.children[key]
+          isParamMatch = true
+          break
+        }
         if (key.match(/^:/)) {
           const pattern = this.getPattern(key)
           const match = p.match(new RegExp(pattern))
