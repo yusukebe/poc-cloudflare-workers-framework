@@ -1,28 +1,32 @@
 // Ref: https://github.com/bmf-san/goblin
 
-function Router() {
-  this.node = new Node({ label: "/" });
-  this.add = (path, stuff) => {
-    this.node.insert(path, stuff)
-  };
-  this.match = (path) => {
-    return this.node.search(path)
-  };
+class Router {
+  constructor() {
+    this.node = new Node({ label: "/" })
+  }
+  add(path, stuff) {
+    this.node.insert(path, stuff);
+  }
+  match(path) {
+    return this.node.search(path);
+  }
 }
 
-function Node({ label, stuff, children } = {}) {
-  this.stuff = stuff || {};
-  this.children = children || [];
-  this.label = label || "";
+class Node {
+  constructor({ label, stuff, children } = {}) {
+    this.label = label || "";
+    this.stuff = stuff || {};
+    this.children = children || [];
+  }
 
-  this.insert = (path, stuff) => {
+  insert(path, stuff) {
     let curNode = this
     if (path == '/') {
       curNode.label = path
       curNode.stuff = stuff
     }
     const ps = this.splitPath(path)
-    for (p of ps) {
+    for (const p of ps) {
       let nextNode = curNode.children[p]
       if (nextNode) {
         curNode = nextNode
@@ -31,19 +35,19 @@ function Node({ label, stuff, children } = {}) {
         curNode = curNode.children[p]
       }
     }
-  };
+  }
 
-  this.splitPath = (path) => {
+  splitPath(path) {
     const ps = []
-    for (p of path.split('/')) {
+    for (const p of path.split('/')) {
       if (p) {
         ps.push(p)
       }
     }
     return ps
-  };
+  }
 
-  this.getPattern = (label) => {
+  getPattern(label) {
     // :id{[0-9]+}  → [0-9]+$
     // :id          → (.+)
     const match = label.match(/^\:.+?\{(.+)\}$/)
@@ -51,25 +55,25 @@ function Node({ label, stuff, children } = {}) {
       return '(' + match[1] + ')'
     }
     return '(.+)'
-  };
+  }
 
-  this.getParamName = (label) => {
+  getParamName(label) {
     const match = label.match(/^\:([^\{\}]+)/)
     if (match) {
       return match[1]
     }
-  };
+  }
 
-  this.noRoute = () => {
+  noRoute() {
     return null
-  };
+  }
 
-  this.search = (path) => {
+  search(path) {
 
     let curNode = this
     const params = {}
 
-    for (p of this.splitPath(path)) {
+    for (const p of this.splitPath(path)) {
       const nextNode = curNode.children[p]
       if (nextNode) {
         curNode = nextNode
@@ -109,4 +113,4 @@ function Node({ label, stuff, children } = {}) {
   }
 }
 
-module.exports = Router;
+module.exports = Router

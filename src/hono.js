@@ -1,23 +1,27 @@
 const Router = require('./router')
 
-function Route(method, handler) {
-  this.method = method;
-  this.handler = handler;
+class Route {
+  constructor(method, handler) {
+    this.method = method;
+    this.handler = handler;
+  }
 }
 
-function App() {
-  this.router = new Router();
+class App {
+  constructor() {
+    this.router = new Router();
+  }
 
-  this.addRoute = (method, path, handler) => {
+  addRoute(method, path, handler) {
     this.router.add(path, new Route(method, handler))
-  };
+  }
 
-  this.handle = (event) => {
+  handle(event) {
     const response = this.dispatch(event.request)
     return event.respondWith(response)
-  };
+  }
 
-  this.dispatch = (request) => {
+  dispatch(request) {
     const url = new URL(request.url)
     const path = url.pathname
     const match = this.router.match(path)
@@ -33,18 +37,18 @@ function App() {
       return handler(request)
     }
     return this.notFound()
-  };
+  }
 
-  this.notFound = () => {
+  notFound() {
     return new Response('Not Found', {
       status: 404,
       headers: {
         'content-type': 'text/plain'
       }
     })
-  };
+  }
 
-  this.fire = () => {
+  fire() {
     addEventListener("fetch", (event) => {
       this.handle(event)
     })
@@ -53,7 +57,7 @@ function App() {
 
 const proxyHandler = {
   get: (target, prop, receiver) => (...args) => {
-    if (target.hasOwnProperty(prop)) {
+    if (target.constructor.prototype.hasOwnProperty(prop)) {
       return target[prop](args[0])
     } else {
       target.addRoute(prop, args[0], args[1])
@@ -69,4 +73,5 @@ function Hono() {
     app, proxyHandler
   )
 }
+
 module.exports = Hono

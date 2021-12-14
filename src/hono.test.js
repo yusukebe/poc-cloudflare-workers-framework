@@ -1,5 +1,6 @@
-const Hono = require('./hono.js')
+const Hono = require('./hono')
 const fetch = require('node-fetch')
+
 const app = new Hono()
 
 describe('GET match', () => {

@@ -1,4 +1,5 @@
 const Router = require('./router')
+
 let router = new Router()
 
 describe('root match', () => {
